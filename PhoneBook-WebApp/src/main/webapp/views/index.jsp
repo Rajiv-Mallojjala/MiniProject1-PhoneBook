@@ -8,8 +8,9 @@
 <title>Phone Book</title>
 </head>
 <body>
+	<font color="red"> ${errMsg}</font>
+	<font color="green"> ${succMsg}</font>
 	<h4>Contact Information</h4>
-	${errMsg} ${succMsg}
 	<form:form action="saveContact" method="POST" modelAttribute="contact">
 		<table>
 			<tr>
