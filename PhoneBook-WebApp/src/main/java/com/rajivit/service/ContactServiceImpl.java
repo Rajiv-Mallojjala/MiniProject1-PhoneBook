@@ -17,13 +17,14 @@ public class ContactServiceImpl implements ContactService {
 	
 	@Override
 	public boolean saveContact(Contact contact) {
+		contact.setActiveSw("Y");
 		Contact savedObj = contactRepo.save(contact);
 		return savedObj.getContactId() != null;
 	}
 
 	@Override
 	public List<Contact> getAllContacts() {
-	 return contactRepo.findAll();
+	 return contactRepo.findByActiveSw("Y");
 	}
 
 	@Override
@@ -34,23 +35,13 @@ public class ContactServiceImpl implements ContactService {
 		}
 		return null;
 	}
-
-	@Override
-	public boolean updateContact(Contact contact) {
-		try {
-			contactRepo.save(contact);
-			return true;			
-		}catch(Exception ex) {
-			ex.printStackTrace();
-			return false;
-		}		
-	}
 	
 	@Override
 	public boolean deleteContactById(Integer contactId) {
 		try {
-			//TODO:update soft delete here!!
-			contactRepo.deleteById(contactId);
+			Contact contact = contactRepo.findById(contactId).get();
+			contact.setActiveSw("N");
+			contactRepo.save(contact);
 			return true;
 		}catch(Exception ex) {
 			ex.printStackTrace();
